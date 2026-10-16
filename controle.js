@@ -1,90 +1,54 @@
-// Carrinho onde vamos guardar os produtos
-let carrinho = [];
 
+ // Carrinho onde vamos guardar os produtos
+let carrinho = [];
 
 // FUNÇÃO PARA ADICIONAR PRODUTO
 function adicionarProduto(nome, preco) {
-
-    // Verifica se o produto já existe no carrinho
     const produtoExistente = carrinho.find(
         produto => produto.nome === nome
     );
 
-
-    // Se já existe, aumenta a quantidade
     if (produtoExistente) {
-
         produtoExistente.quantidade++;
-
     } else {
-
-        // Se não existe, adiciona um novo produto
         carrinho.push({
             nome: nome,
             preco: preco,
             quantidade: 1
         });
-
     }
 
-
-  
-
-
-    // Atualiza o carrinho na tela
     atualizarCarrinho();
 }
 
-
-
 // FUNÇÃO PARA ATUALIZAR O CARRINHO
 function atualizarCarrinho() {
-
     const listaCarrinho = document.getElementById("lista-carrinho");
-
     const totalElemento = document.getElementById("total");
 
-
-    // Limpa o conteúdo atual
     listaCarrinho.innerHTML = "";
 
-
-    // Se não tiver produtos
     if (carrinho.length === 0) {
-
         listaCarrinho.innerHTML = `
             <p>Nenhum produto adicionado.</p>
         `;
 
         totalElemento.textContent = "0.00";
-
         return;
     }
 
-
-    // Total da compra
     let total = 0;
 
-
-    // Percorre todos os produtos
     carrinho.forEach((produto, index) => {
-
-        // Calcula o preço
         const subtotal = produto.preco * produto.quantidade;
-
         total += subtotal;
 
-
-        // Cria o produto na tela
         const item = document.createElement("div");
-
         item.classList.add("item-carrinho");
-
 
         item.innerHTML = `
             <div>
                 <strong>${produto.nome}</strong>
-
                 <p>
                     ${produto.quantidade}x
                     R$ ${produto.preco.toFixed(2)}
@@ -92,10 +56,7 @@ function atualizarCarrinho() {
             </div>
 
             <div>
-                <strong>
-                    R$ ${subtotal.toFixed(2)}
-                </strong>
-
+                <strong>R$ ${subtotal.toFixed(2)}</strong>
                 <button
                     class="remover"
                     onclick="removerProduto(${index})">
@@ -104,78 +65,83 @@ function atualizarCarrinho() {
             </div>
         `;
 
-
         listaCarrinho.appendChild(item);
-
     });
 
-
-    // Mostra o total
     totalElemento.textContent = total.toFixed(2);
 }
 
-
-
 // FUNÇÃO PARA REMOVER PRODUTO
 function removerProduto(index) {
-
-    // Diminui a quantidade
     if (carrinho[index].quantidade > 1) {
-
         carrinho[index].quantidade--;
-
     } else {
-
-        // Remove o produto
         carrinho.splice(index, 1);
-
     }
 
-
-    // Atualiza a tela
     atualizarCarrinho();
 }
 
-
-
 // FUNÇÃO PARA FINALIZAR PEDIDO
 function finalizarPedido() {
+    const mensagem = document.getElementById("mensagem-pedido");
+    const titulo = document.getElementById("titulo-pedido");
+    const texto = document.getElementById("texto-pedido");
+    const botao = document.querySelector(".finalizar");
+
+    // Verifica se os elementos da mensagem existem
+    if (!mensagem || !titulo || !texto || !botao) {
+        console.error(
+            "Não encontrei a mensagem do pedido no HTML. Confira os IDs."
+        );
+        return;
+    }
 
     // Verifica se o carrinho está vazio
     if (carrinho.length === 0) {
+        titulo.textContent = "Seu carrinho está vazio";
+        texto.textContent = "Adicione algum produto antes de finalizar.";
 
-        alert("Adicione algum produto ao pedido.");
+        mensagem.classList.add("visivel");
+
+        clearTimeout(window.temporizadorPedido);
+
+        window.temporizadorPedido = setTimeout(() => {
+            mensagem.classList.remove("visivel");
+        }, 4000);
 
         return;
     }
 
-
-    // Calcula o total
+    // Calcula o total do pedido
     let total = 0;
 
     carrinho.forEach(produto => {
-
         total += produto.preco * produto.quantidade;
-
     });
 
-    
+    // Mostra a confirmação dentro do site
+    titulo.textContent = "Pedido em preparação!";
+    texto.textContent =
+        "Seu pedido foi confirmado. Total: R$ " +
+        total.toFixed(2).replace(".", ",");
 
+    mensagem.classList.add("visivel");
 
-    // Mostra mensagem
-    alert(
-        "Pedido realizado com sucesso!\n\n" +
-        "Total: R$ " + total.toFixed(2)
-    );
-
+    // Desativa o botão temporariamente
+    botao.disabled = true;
+    botao.textContent = "Pedido confirmado";
 
     // Limpa o carrinho
     carrinho = [];
-
-
-    // Atualiza a tela
     atualizarCarrinho();
 
+    // Esconde a mensagem e libera um novo pedido
+    clearTimeout(window.temporizadorPedido);
 
-    
+    window.temporizadorPedido = setTimeout(() => {
+        mensagem.classList.remove("visivel");
+        botao.disabled = false;
+        botao.textContent = "Finalizar pedido";
+    }, 4500);
 }

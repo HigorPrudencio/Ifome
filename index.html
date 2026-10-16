@@ -23,80 +23,21 @@
 
             <h2>Produtos</h2>
 
-            <div class="lista-produtos">
-
-                <div class="produto">
-                     <img src="comidas/hamburger1.webp" alt="Hambúrguer">
-                    <h3>Hambúrguer</h3>
-                    <p>Hambúrguer artesanal com queijo e salada.</p>
-                    <strong>R$ 25,00</strong>
-
-                    <button onclick="adicionarProduto('Hambúrguer', 25)">
-                        Adicionar
-                    </button>
-                </div>
-
-                <div class="produto">
-                     <img src="comidas/batata.webp" alt="Batata Frita">
-                    <h3>Batata Frita</h3>
-                    <p>Porção de batata frita crocante.</p>
-                    <strong>R$ 15,00</strong>
-
-                    <button onclick="adicionarProduto('Batata Frita', 15)">
-                        Adicionar
-                    </button>
-                </div>
-
-                <div class="produto">
-                      <img src="comidas/refri.avif" alt="Refrigerante">
-                    <h3>Refrigerante</h3>
-                    <p>Refrigerante lata 350ml.</p>
-                    <strong>R$ 7,00</strong>
-
-                    <button onclick="adicionarProduto('Refrigerante', 7)">
-                        Adicionar
-                    </button>
-                </div>
-
-                 <div class="produto">
-                      <img src="comidas/xsalada.png" alt="xsalada">
-                    <h3>XSALADA</h3>
-                    <p>Um gostoso lanche de salada</p>
-                    <strong>R$ 30,00</strong>
-
-                    <button onclick="adicionarProduto('xsalada', 30)">
-                        Adicionar
-                    </button>
-                </div>
-
-
-                    <div class="produto">
-                      <img src="comidas/tabuacarne.jpg" alt="tabuacarne">
-                    <h3>TABUA DE MAMINHA </h3>
-                    <p>300 gramas de maminha </p>
-                    <strong>R$ 50,00</strong>
-
-                    <button onclick="adicionarProduto('tabuacarne', 50)">
-                        Adicionar
-                    </button>
-                </div>
-
-
-                 <div class="produto">
-                      <img src="comidas/acai.webp" alt="acai">
-                    <h3>Açai puro</h3>
-                    <p>500 ml de açai puro </p>
-                    <strong>R$ 33,00</strong>
-
-                    <button onclick="adicionarProduto('acai', 33)">
-                        Adicionar
-                    </button>
-                </div>
-
-
-
-
+            <div class="pesquisa-produtos">
+            <input
+            type="search"
+            id="pesquisa-produtos"
+            placeholder="Buscar hambúrguer, batata, açaí..."
+            aria-label="Pesquisar produtos"
+        >
             </div>
+
+           <div class="lista-produtos" id="lista-produtos"></div>
+
+            <p id="nenhum-resultado" hidden>
+                Nenhum produto encontrado.
+            </p>
+
 
         </section>
 
